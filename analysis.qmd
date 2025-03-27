@@ -1,0 +1,47 @@
+```{python}
+import pandas as pd
+from datetime import datetime
+import numpy as np
+
+df = pd.read_csv('data/security_incidents.csv')
+
+# Ensure Year, Month, and Day are numeric
+df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
+df["Month"] = pd.to_numeric(df["Month"], errors="coerce")
+df["Day"] = pd.to_numeric(df["Day"], errors="coerce")
+
+# Create a combined datetime column, ignoring rows with missing month/day
+# If Month or Day is NaN, it will become NaT
+df["date"] = pd.to_datetime(
+    df[["Year", "Month", "Day"]], 
+    errors="coerce", 
+    format="mixed"  # optional, often not needed
+)
+
+
+numeric_cols = [
+    "Nationals killed", "Nationals wounded", "Nationals kidnapped", 
+    "Total nationals", "Internationals killed", "Internationals wounded", 
+    "Internationals kidnapped", "Total internationals", "Total killed",
+    "Total wounded", "Total kidnapped", "Total affected",
+    "Gender Male", "Gender Female", "Gender Unknown", 
+    "Latitude", "Longitude"
+]
+
+for col in numeric_cols:
+    df[col] = pd.to_numeric(df[col], errors="coerce")
+
+df["Verified"] = df["Verified"].map(lambda x: True if x == "Verified" else False)
+
+df.replace(['', 'NA', 'Unknown'], np.nan, inplace=True)
+
+
+# Remove Irrelevant or duplicated rows
+df.drop_duplicates(subset="Incident ID", keep="first", inplace=True)
+
+df.describe(include="all")
+
+df.to_csv("cleaned.csv", index=False)
+df.isnull().sum() 
+
+```

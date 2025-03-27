@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interactive Data Story with D3</title>
+  <!-- Link to your CSS -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- D3.js from a CDN; use the version you prefer, e.g., v7 -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+
+<body>
+  <!-- Slide 1 -->
+  <section class="slide" id="slide1">
+    <h1>Welcome to My Data Story</h1>
+    <p>Scroll down to explore interactive charts.</p>
+  </section>
+
+  <!-- Slide 2 (a bar chart, for example) -->
+  <section class="slide" id="slide2">
+    <h2>Bar Chart of Incidents</h2>
+    <!-- We'll append an SVG here using D3 -->
+    <div id="bar-chart"></div>
+  </section>
+
+  <!-- Slide 3 (a map, for example) -->
+  <section class="slide" id="slide3">
+    <h2>Map of Incidents</h2>
+    <!-- We'll append an SVG map here -->
+    <div id="map"></div>
+  </section>
+
+  <!-- Add more slides as needed -->
+
+  <!-- Script containing your D3 code can go here or in script.js -->
+  <script src="script.js"></script>
+</body>
+</html>
