@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Slide Over Demo</title>
+  <style>
+    /* Basic resets */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 200vh; /* Enough scroll height for the demo */
+      font-family: sans-serif;
+    }
+
+    /* The wrapper is just a tall container to let us scroll */
+    .wrapper {
+      position: relative;
+      width: 100vw;
+      height: 200vh;
+      background: #ccc; /* Just a background color for reference */
+    }
+
+    /* Both sections fill the viewport and are stacked at the top */
+    .section1,
+    .section2 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.2s linear; /* optional for slight smoothing */
+    }
+
+    /* Section 1 is behind Section 2 */
+    .section1 {
+      z-index: 1;
+      background: #f6e9d7;
+      color: #333;
+    }
+
+    /*
+      Section 2 starts out "below" the viewport,
+      so it won't appear until we scroll.
+    */
+    .section2 {
+      z-index: 2;
+      background: #cec9b7;
+      color: #fff;
+      transform: translateY(100%); /* Start hidden below */
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="section1">Section 1</div>
+    <div class="section2">Section 2</div>
+  </div>
+
+  <script>
+    // Listen for scroll, adjust the translate of .section2
+    window.addEventListener("scroll", function() {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+
+      // We'll treat the first window-height of scrolling (0 to windowHeight) 
+      // as our "animation range" from 100% -> 0% transform.
+      // Feel free to tweak this logic for your needs.
+      const maxScroll = windowHeight; // the scroll distance we want for full coverage
+      const fraction = Math.min(scrollTop / maxScroll, 1); 
+        // fraction goes from 0.0 to 1.0
+
+      // As fraction goes from 0->1, translateY goes from 100%->0%
+      const translateValue = (1 - fraction) * 100;
+
+      document.querySelector('.section2').style.transform = `translateY(${translateValue}%)`;
+    });
+  </script>
+</body>
+</html>

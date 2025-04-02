@@ -45,3 +45,136 @@ df.to_csv("cleaned.csv", index=False)
 df.isnull().sum() 
 
 ```
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Use Matplotlib's dark background style
+plt.style.use('dark_background')
+
+# Read the CSV file
+df = pd.read_csv("cleaned.csv")
+
+# Convert casualty columns to numeric and fill missing values with 0
+df["Nationals killed"] = pd.to_numeric(df["Nationals killed"], errors="coerce").fillna(0)
+df["Internationals killed"] = pd.to_numeric(df["Internationals killed"], errors="coerce").fillna(0)
+
+# Group data by country and sum the casualties
+grouped = df.groupby("Country")[["Nationals killed", "Internationals killed"]].sum()
+
+# Create a new column for total casualties (for sorting purposes)
+grouped["Total killed"] = grouped["Nationals killed"] + grouped["Internationals killed"]
+
+# Sort the data by total casualties and keep the top 10 countries
+grouped = grouped.sort_values("Total killed", ascending=False).head(10)
+
+# Create a horizontal stacked bar chart
+fig, ax = plt.subplots(figsize=(10, 8))
+# Choose colors that pop on a dark background
+colors = ["ghostwhite", "lightcoral"]  # bright blue and red
+
+grouped[["Nationals killed", "Internationals killed"]].plot(
+    kind="barh",
+    stacked=True,
+    color=colors,
+    width=0.8,
+    legend=True,
+    ax=ax
+)
+
+# Invert y-axis so the highest values appear on top
+ax.invert_yaxis()
+
+# Customize the chart for dark theme
+ax.set_title("Top 10 Countries by Casualties", fontsize=16, color="white")
+ax.set_xlabel("Number of Casualties", fontsize=14, color="white")
+ax.set_ylabel("Country", fontsize=14, color="white")
+
+# Set tick label colors to white
+ax.tick_params(axis="x", colors="white")
+ax.tick_params(axis="y", colors="white")
+# Ensure legend text is also white
+legend = ax.get_legend()
+for text in legend.get_texts():
+    text.set_color("white")
+
+plt.tight_layout()
+plt.savefig("top10_casualties.png")
+plt.show()
+
+
+
+
+```
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Use a dark background style
+plt.style.use('dark_background')
+
+# Load the dataset
+df = pd.read_csv("cleaned.csv")
+
+# Ensure 'Year' is numeric
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+
+# Group by Year and count incidents
+yearly_incidents = df.groupby("Year").size()
+
+# Plot the time series
+plt.figure(figsize=(10,6))
+plt.plot(yearly_incidents.index, yearly_incidents.values, marker='o', linestyle='-', color="coral", linewidth=2)
+plt.title("Incidents Over Time", fontsize=16, color="white")
+plt.xlabel("Year", fontsize=14, color="white")
+plt.ylabel("Number of Incidents", fontsize=14, color="white")
+plt.xticks(color="white")
+plt.yticks(color="white")
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, color='gray', alpha=0.5)
+plt.tight_layout()
+plt.savefig("incidents_over_time.png", dpi=300)
+plt.show()
+
+
+
+```
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Use Matplotlib's dark background style
+plt.style.use('dark_background')
+
+# Read the CSV file
+df = pd.read_csv("cleaned.csv")
+
+# Fill missing values in "Means of attack" with "Unknown"
+df["Means of attack"] = df["Means of attack"].fillna("Unknown")
+
+# Group by Means of attack and count occurrences
+attack_counts = df["Means of attack"].value_counts()
+
+# Define a palette of light colors that pop on a dark background
+# You can adjust or expand this list as needed
+colors = ["lightblue", "lightcoral", "plum", "lightgreen", "khaki", "lightskyblue", "pink", "lightyellow"]
+
+# Create a pie chart
+plt.figure(figsize=(8,8))
+plt.pie(
+    attack_counts,
+    labels=attack_counts.index,
+    autopct='%1.1f%%',
+    startangle=140,
+    colors=colors[:len(attack_counts)],  # Use as many colors as categories
+    textprops={'color':'white'}          # White text for contrast
+)
+
+plt.title("Distribution of Attack Methods", fontsize=16, color="white")
+plt.tight_layout()
+plt.savefig("attack_methods_distribution.png", dpi=300)
+plt.show()
+
+```

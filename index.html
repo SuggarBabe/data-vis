@@ -1,38 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Interactive Data Story with D3</title>
-  <!-- Link to your CSS -->
-  <link rel="stylesheet" href="style.css" />
-  <!-- D3.js from a CDN; use the version you prefer, e.g., v7 -->
-  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Video + Sliding Text</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-cloud/1.2.5/d3.layout.cloud.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 </head>
-
 <body>
-  <!-- Slide 1 -->
-  <section class="slide" id="slide1">
-    <h1>Welcome to My Data Story</h1>
-    <p>Scroll down to explore interactive charts.</p>
+
+  <!-- 1) Hero Video Slide -->
+  <section class="slide video-hero">
+    <video autoplay muted loop playsinline id="heroVideo">
+      <source src="my-background.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay fade-me">
+      <h2 style="font-size:45px; margin-bottom: 10px;">Welcome to My Data Story</h2>
+      <p>Scroll down to explore more slides.</p>
+    </div>
   </section>
 
-  <!-- Slide 2 (a bar chart, for example) -->
   <section class="slide" id="slide2">
-    <h2>Bar Chart of Incidents</h2>
-    <!-- We'll append an SVG here using D3 -->
-    <div id="bar-chart"></div>
+    <div class="card">
+        <div class="card-text">
+          <h1 id="typed-h1" style="font-size:60px; margin-bottom: 30px;">Introduction</h1>
+          <p id="typed-p" style="font-size:30px;"></p>
+        </div>
+        <div class="card-image">
+          <img src="map.png" alt="Aid Worker in Action">
+        </div>
+    </div>
   </section>
 
-  <!-- Slide 3 (a map, for example) -->
   <section class="slide" id="slide3">
-    <h2>Map of Incidents</h2>
-    <!-- We'll append an SVG map here -->
-    <div id="map"></div>
+    <div class="card1">
+      <!-- Left Column: Word Cloud -->
+      <div class="card-wordcloud">
+        <h2 class="slide-in" style="font-size:45px; margin-bottom: 20px;">Word Cloud</h2>
+        <div id="wordcloud"></div>
+      </div>
+      <!-- Right Column: Dataset Explanation -->
+      <div class="card-explanation" style="align-items: center; text-align: center; padding-left: 1rem;">
+        <h2 class="slide-in" style="font-size:45px; margin-bottom: 6rem;">Dataset</h2>
+        <p class="slide-in" style="font-size:20px; margin-bottom: 20px; ">
+            The dataset details incidents against humanitarian aid workers by recording the time, location, and details of each attack—including casualty figures and the means of attack. It provides both quantitative and qualitative data to help identify patterns of violence and improve safety strategies in conflict zones.
+        </p>
+      </div>
+    </div>
   </section>
+  <section class="slide" id="slide4">
+    <div class="pinned-wrapper">
+      <!-- Card 1 -->
+      <div class="holder card">
+        <div class="overlay">
+          <h1>001: Top 10 Countries by Casualties</h1>
+          <div class="card-content">
+            <div class="card-image">
+              <img src="1.png" alt="Casualties Plot">
+            </div>
+            <div class="card-explanation">
+              <p>
+                This chart shows the top 10 countries by aid-worker casualties with a breakdown of nationals and internationals.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Card 2 -->
+      <div class="holder card">
+        <div class="overlay">
+          <h1>002: Incident Trends Over Time</h1>
+          <div class="card-content">
+            <div class="card-image">
+              <img src="2.png" alt="Incident Trends">
+            </div>
+            <div class="card-explanation">
+              <p>
+                This line chart illustrates how the number of incidents has evolved annually from 2000 to 2025. While there are occasional spikes, the overall trend is upward, indicating heightened risk in more recent years, followed by a sharp dip in the final data point.              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Card 3 -->
+      <div class="holder card">
+        <div class="overlay">
+          <h1>003: Attack Methods Analysis</h1>
+          <div class="card-content">
+            <div class="card-image">
+              <img src="3.png" alt="Attack Methods">
+            </div>
+            <div class="card-explanation">
+              <p>
+                This pie chart shows the relative frequency of different attack methods. Kidnapping, shooting, and bodily assault form the largest slices, while smaller portions represent less common methods, highlighting the diverse tactics used in these incidents.              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="slide" id="conclusions-slide" style="background-color: #000; color: #fff; padding: 2rem;">
+    <div class="card" 
+         style="display: flex; 
+                flex-wrap: wrap; 
+                justify-content: space-between; 
+                align-items: flex-start; 
+                background-color: transparent;">
+      
+      <!-- Textual Conclusions & Recommendations -->
+      <div class="card-text" 
+           style="flex: 1; 
+                  min-width: 300px; 
+                  padding: 1rem;">
+        <h2 style="font-size: 45px; margin-bottom: 20px;">
+          Conclusions &amp; Recommendations
+        </h2>
+        <p style="font-size: 20px; margin-bottom: 20px;">
+          Our analysis reveals significant trends in incidents against aid workers, 
+          including a steady rise in casualty numbers over time and variations in 
+          attack methods across regions.
+        </p>
+        <ul style="font-size: 20px; margin-bottom: 20px; list-style-type: disc; padding-left: 1.5rem;">
+          <li>Enhance security measures in high-risk regions.</li>
+          <li>Adapt operational strategies to mitigate escalating risks.</li>
+          <li>Invest in further research to understand local dynamics.</li>
+        </ul>
+        <p style="font-size: 20px;">
+          These recommendations are based on data-driven insights aimed at 
+          protecting humanitarian efforts and ensuring aid worker safety.
+        </p>
+      </div>
+      
+      <!-- Interactive Visualization -->
+      <div class="card-visual" style="flex: 1; min-width: 300px; padding: 3rem;">
+        <div id="recommendation-chart" style="width: 100%; height: 400px; margin: 0 auto;"></div>
+      </div>
+    </div>
+  
+    <p style="font-size: 20px; text-align: center; margin-top: 20px;">
+      Thank you for exploring this data story.
+    </p>
+  
+    <script>
+      var trace1 = {
+        x: ['Security', 'Operations', 'Research'],
+        y: [80, 65, 50],
+        type: 'bar',
+        text: [
+          'High-risk regions require robust security measures.',
+          'Operational strategies must adapt to increasing risks.',
+          'Additional research is essential to address local challenges.'
+        ],
+        hoverinfo: 'text',
+        marker: {
+          color: 'rgba(0, 200, 200, 0.6)',  // Adjust bar color
+          line: {
+            color: 'rgba(0, 200, 200, 1.0)',
+            width: 2
+          }
+        }
+      };
+  
+      var data = [trace1];
+  
+      var layout = {
+        title: {
+          text: 'Stakeholder Focus Areas',
+          font: { color: '#fff' }
+        },
+        paper_bgcolor: '#000',
+        plot_bgcolor: '#000',
+        font: { color: '#fff' }, 
+        xaxis: {
+          title: {
+            text: 'Recommendations',
+            font: { color: '#fff' }
+          },
+          tickfont: { color: '#fff' },
+          linecolor: '#fff',
+          gridcolor: '#444'
+        },
+        yaxis: {
+          title: {
+            text: 'Priority Level (%)',
+            font: { color: '#fff' }
+          },
+          tickfont: { color: '#fff' },
+          linecolor: '#fff',
+          gridcolor: '#444'
+        },
+        margin: { l: 50, r: 50, t: 60, b: 50 }
+      };
+  
+      Plotly.newPlot('recommendation-chart', data, layout);
+    </script>
+  </section>
+  
+  
+  
 
-  <!-- Add more slides as needed -->
-
-  <!-- Script containing your D3 code can go here or in script.js -->
+  <!-- Script for Intersection Observer -->
   <script src="script.js"></script>
 </body>
 </html>
