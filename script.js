@@ -48,13 +48,13 @@ document.addEventListener("DOMContentLoaded", function() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           if (!typedH1Started) {
-            document.getElementById("typed-h1").innerHTML = "";
+            document.getElementById("typed-h1").innerHTML = "Exploring the Data: Risks Faced by Aid WorkersExploring the Data: Risks Faced by Aid Workers";
             typeWriter("typed-h1", "Introduction", 100);
             typedH1Started = true;
           }
           if (!typedPStarted) {
             document.getElementById("typed-p").innerHTML = "";
-            typeWriter("typed-p", "Humanitarian aid workers provide critical support in some of the world’s most volatile regions. Their efforts are constantly challenged by unpredictable security threats. Analyzing incident data reveals patterns in these attacks, offering valuable insights for improving safety strategies.", 5);
+            typeWriter("typed-p", "Our dataset offers a deep dive into the real-world challenges faced by humanitarian aid workers. By tracking incidents from 1997 to 2025—including casualty numbers, geographic hotspots, and methods of attack—we reveal patterns that underscore the growing risks on the front lines. Join us as we unravel the story behind the numbers and explore what they tell us about the safety of those who serve in conflict zones.", 5);
             typedPStarted = true;
           }
           obs.unobserve(entry.target);
